@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>GBM Care AI AI — Glioblastoma intelligence platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script>document.documentElement.classList.add('js')</script>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #050B1B;
+            --cy: #00D9FF;
+            --bl: #2864FF;
+            --vi: #916BFF;
+            --or: #FF8A2B;
+            --rd: #FF4B3E;
+            --tx: #F4F7FF;
+            --mu: #9AA8C7;
+            --gl: rgba(255, 255, 255, .055);
+            --bd: rgba(255, 255, 255, .12);
+            --ok: #3DDC97;
+            box-sizing: border-box;
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 110px)
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--tx);
+            font: 400 15px/1.55 Inter, system-ui, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: radial-gradient(55% 40% at 85% 0, rgba(40, 100, 255, .2), transparent 70%), radial-gradient(40% 40% at 5% 60%, rgba(145, 107, 255, .12), transparent 70%)
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo {
+            font-family: Sora, Inter, system-ui, sans-serif;
+            letter-spacing: -.01em;
+            margin: 0
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            padding-top: env(safe-area-inset-top, 0px);
+            background: rgba(5, 11, 27, .7);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            height: 60px;
+            padding: 0 20px;
+            max-width: 1240px;
+            margin: 0 auto;
+            flex-wrap: nowrap
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 700;
+            font-size: 17px;
+            white-space: nowrap
+        }
+
+        .grad {
+            background: linear-gradient(110deg, var(--cy), var(--bl) 55%, var(--vi));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            border-radius: 999px;
+            background: var(--gl);
+            border: 1px solid var(--bd)
+        }
+
+        .tabs a {
+            padding: 7px 16px;
+            border-radius: 999px;
+            font: 500 13px Inter, sans-serif;
+            color: var(--mu);
+            white-space: nowrap
+        }
+
+        .tabs a.on {
+            background: rgba(0, 217, 255, .15);
+            color: var(--cy)
+        }
+
+        select,
+        input[type=text] {
+            background: rgba(255, 255, 255, .07);
+            color: var(--tx);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font: 500 13px Inter, sans-serif
+        }
+
+        select option {
+            background: #0b1430
+        }
+
+        .ban {
+            background: rgba(255, 138, 43, .1);
+            border-bottom: 1px solid rgba(255, 138, 43, .3);
+            color: #ffc08a;
+            font-size: 12px;
+            text-align: center;
+            padding: 6px 12px
+        }
+
+        .ban-w {
+            position: fixed;
+            top: calc(60px + env(safe-area-inset-top, 0px));
+            left: 0;
+            right: 0;
+            z-index: 19
+        }
+
+        main {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: calc(120px + env(safe-area-inset-top, 0px)) 20px 70px
+        }
+
+        .view {
+            display: none
+        }
+
+        .view.on {
+            display: block
+        }
+
+        .card {
+            background: var(--gl);
+            border: 1px solid var(--bd);
+            border-radius: 22px;
+            padding: 22px;
+            backdrop-filter: blur(18px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07)
+        }
+
+        .nopad {
+            padding: 0;
+            overflow: hidden;
+            position: relative
+        }
+
+        .grid {
+            display: grid;
+            gap: 18px
+        }
+
+        .g2 {
+            grid-template-columns: 1.15fr 1fr
+        }
+
+        .g4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .mt {
+            margin-top: 18px
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font: 600 13px Sora, sans-serif;
+            border: 1px solid var(--bd);
+            background: var(--gl);
+            color: var(--tx);
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .btn:hover {
+            transform: translateY(-1px)
+        }
+
+        .btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .btn.p {
+            background: linear-gradient(120deg, var(--cy), var(--bl) 60%, var(--vi));
+            border: 0;
+            color: #03101f
+        }
+
+        .pipe {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        .steps {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            flex: 1
+        }
+
+        .st {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--bd);
+            color: var(--mu);
+            font-size: 13px;
+            transition: .3s
+        }
+
+        .st i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--mu)
+        }
+
+        .st.act {
+            border-color: var(--cy);
+            color: var(--cy)
+        }
+
+        .st.act i {
+            background: var(--cy);
+            box-shadow: 0 0 10px var(--cy);
+            animation: bl 1s infinite
+        }
+
+        .st.done {
+            color: var(--ok);
+            border-color: rgba(61, 220, 151, .4)
+        }
+
+        .st.done i {
+            background: var(--ok)
+        }
+
+        @keyframes bl {
+            50% {
+                opacity: .3
+            }
+        }
+
+        #stage {
+            height: 470px;
+            position: relative
+        }
+
+        #stage canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: pan-y;
+            cursor: grab
+        }
+
+        .leg {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            font-size: 11px;
+            color: var(--mu);
+            display: grid;
+            gap: 4px;
+            pointer-events: none
+        }
+
+        .leg b {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 7px
+        }
+
+        .hint {
+            position: absolute;
+            right: 16px;
+            bottom: 12px;
+            font-size: 11px;
+            color: var(--mu)
+        }
+
+        #sl {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1;
+            display: block;
+            margin: 0 auto 12px;
+            border-radius: 14px;
+            border: 1px solid var(--bd)
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--cy)
+        }
+
+        .chips {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap
+        }
+
+        .chip {
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--bd);
+            background: transparent;
+            color: var(--mu);
+            font: 500 12px Inter, sans-serif;
+            cursor: pointer
+        }
+
+        .chip.on {
+            color: var(--tx);
+            border-color: currentColor
+        }
+
+        .m small {
+            display: block;
+            color: var(--mu);
+            font-size: 12px
+        }
+
+        .m b {
+            font: 700 26px Sora, sans-serif
+        }
+
+        .m em {
+            font-style: normal;
+            font-size: 12px;
+            color: var(--mu)
+        }
+
+        .gate {
+            transition: .4s
+        }
+
+        .locked .gate {
+            filter: blur(7px) saturate(.4);
+            pointer-events: none;
+            user-select: none
+        }
+
+        .lm {
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: rgba(0, 217, 255, .08);
+            border: 1px solid rgba(0, 217, 255, .3);
+            color: var(--cy);
+            font-size: 13px
+        }
+
+        .locked .lm {
+            display: block
+        }
+
+        .row {
+            margin-bottom: 18px
+        }
+
+        .row label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--mu);
+            margin-bottom: 6px
+        }
+
+        .row label b {
+            color: var(--tx)
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 9px 6px;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        th {
+            color: var(--mu);
+            font-weight: 500
+        }
+
+        .ok {
+            color: var(--ok)
+        }
+
+        .bad {
+            color: var(--rd)
+        }
+
+        .note {
+            font-size: 12px;
+            color: var(--mu);
+            margin-top: 12px
+        }
+
+        #aud {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            max-height: 360px;
+            overflow: auto;
+            font-size: 13px
+        }
+
+        #aud li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            gap: 12px
+        }
+
+        #aud time {
+            color: var(--cy);
+            font-variant-numeric: tabular-nums;
+            flex: none
+        }
+
+        pre {
+            white-space: pre-wrap;
+            font: 12.5px/1.6 ui-monospace, Menlo, monospace;
+            background: rgba(0, 0, 0, .3);
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 0 0 14px;
+            color: #cfe4ff
+        }
+
+        .act {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .pill {
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .pill.pen {
+            background: rgba(255, 138, 43, .15);
+            color: #ffb27a
+        }
+
+        .pill.ap {
+            background: rgba(61, 220, 151, .15);
+            color: var(--ok)
+        }
+
+        svg text {
+            font-family: Inter, sans-serif
+        }
+
+        @media(max-width:900px) {
+
+            .g2,
+            .g4 {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .g2 {
+                grid-template-columns: 1fr
+            }
+
+            .logo span {
+                display: none
+            }
+
+            .bar {
+                padding: 0 12px
+            }
+
+            #stage {
+                height: 360px
+            }
+
+            main {
+                padding-left: 14px;
+                padding-right: 14px
+            }
+        }
+
+        @media(max-width:520px) {
+            .g4 {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .tabs a {
+                padding: 7px 10px
+            }
+        }
+
+        #v-home .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        #v-home .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            font: 600 14px Sora, sans-serif;
+            border: 1px solid var(--bd);
+            background: var(--gl);
+            color: var(--tx);
+            cursor: pointer;
+            transition: .25s
+        }
+
+        #v-home .btn.p {
+            background: linear-gradient(120deg, var(--cy), var(--bl) 60%, var(--vi));
+            border: 0;
+            color: #03101f;
+            box-shadow: 0 8px 40px -8px rgba(0, 217, 255, .55)
+        }
+
+        #v-home .btn:hover {
+            transform: translateY(-2px)
+        }
+
+        #v-home .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 96px
+        }
+
+        #v-home .hero .wrap {
+            position: relative;
+            z-index: 2;
+            width: 100%
+        }
+
+        #v-home .copy {
+            max-width: 540px
+        }
+
+        #v-home .eyebrow {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 12px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--cy);
+            padding: 7px 14px;
+            border: 1px solid rgba(0, 217, 255, .3);
+            border-radius: 999px;
+            background: rgba(0, 217, 255, .07)
+        }
+
+        #v-home .eyebrow i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--cy);
+            box-shadow: 0 0 12px var(--cy)
+        }
+
+        #v-home h1 {
+            font-size: clamp(38px, 5.2vw, 68px);
+            line-height: 1.04;
+            margin: 22px 0 20px;
+            font-weight: 700
+        }
+
+        #v-home .grad {
+            background: linear-gradient(110deg, var(--cy), var(--bl) 55%, var(--vi));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        #v-home .lead {
+            color: var(--mu);
+            font-size: 18px;
+            max-width: 480px
+        }
+
+        #v-home .cta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 32px 0 40px
+        }
+
+        #v-home .stats {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap
+        }
+
+        #v-home .stats b {
+            display: block;
+            font: 700 28px Sora, sans-serif;
+            color: var(--tx)
+        }
+
+        #v-home .stats span {
+            font-size: 12px;
+            color: var(--mu)
+        }
+
+        #v-home #hstage {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 62%;
+            z-index: 1
+        }
+
+        #v-home #hstage canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: pan-y;
+            cursor: grab
+        }
+
+        #v-home #hstage canvas:active {
+            cursor: grabbing
+        }
+
+        #v-home .tag {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+            font: 600 12px Sora, sans-serif;
+            white-space: nowrap;
+            transition: opacity .3s
+        }
+
+        #v-home .tag i {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--or);
+            box-shadow: 0 0 16px var(--or);
+            animation: pl 1.8s infinite
+        }
+
+        #v-home .tag em {
+            font-style: normal;
+            padding: 5px 10px;
+            border-radius: 8px;
+            background: rgba(255, 106, 42, .14);
+            border: 1px solid rgba(255, 138, 43, .5);
+            color: #ffc08a;
+            backdrop-filter: blur(8px)
+        }
+
+        @keyframes pl {
+            50% {
+                transform: scale(1.5);
+                opacity: .5
+            }
+        }
+
+        #v-home .layers {
+            position: absolute;
+            left: 50%;
+            bottom: 28px;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(10, 20, 45, .6);
+            border: 1px solid var(--bd);
+            backdrop-filter: blur(16px);
+            z-index: 3;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 94%
+        }
+
+        #v-home .layers button {
+            font: 500 12px Inter, sans-serif;
+            color: var(--mu);
+            background: transparent;
+            border: 0;
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        #v-home .layers button.on {
+            background: rgba(0, 217, 255, .14);
+            color: var(--cy)
+        }
+
+        #v-home .badge {
+            position: absolute;
+            right: 24px;
+            top: 92px;
+            z-index: 3;
+            font-size: 11px;
+            color: var(--mu);
+            padding: 6px 12px;
+            border: 1px dashed var(--bd);
+            border-radius: 999px;
+            background: rgba(5, 11, 27, .5)
+        }
+
+        #v-home .nogl {
+            background: radial-gradient(circle at 55% 50%, rgba(40, 100, 255, .35), transparent 60%)
+        }
+
+        #v-home .nogl svg {
+            display: block;
+            width: 100%;
+            height: 100%
+        }
+
+        #v-home section {
+            padding: 110px 0;
+            position: relative
+        }
+
+        #v-home .sh {
+            max-width: 640px;
+            margin-bottom: 56px
+        }
+
+        #v-home .sh small {
+            color: var(--cy);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            font-size: 12px
+        }
+
+        #v-home h2 {
+            font-size: clamp(30px, 3.6vw, 46px);
+            line-height: 1.1;
+            margin: 12px 0 14px;
+            font-weight: 600
+        }
+
+        #v-home .sh p {
+            color: var(--mu)
+        }
+
+        #v-home .grid {
+            display: grid;
+            gap: 20px
+        }
+
+        #v-home .g3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        #v-home .g2 {
+            grid-template-columns: repeat(2, 1fr)
+        }
+
+        #v-home .g4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        #v-home .card {
+            background: var(--gl);
+            border: 1px solid var(--bd);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 30px 60px -30px rgba(0, 0, 0, .6);
+            transition: .3s
+        }
+
+        #v-home .card:hover {
+            border-color: rgba(0, 217, 255, .4);
+            transform: translateY(-4px)
+        }
+
+        #v-home .ic {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 22px;
+            color: var(--cy);
+            background: linear-gradient(140deg, rgba(0, 217, 255, .18), rgba(145, 107, 255, .18));
+            border: 1px solid rgba(0, 217, 255, .25)
+        }
+
+        #v-home .ic svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        #v-home .card h3 {
+            margin: 0 0 8px;
+            font-size: 20px;
+            font-weight: 600
+        }
+
+        #v-home .card p {
+            margin: 0;
+            color: var(--mu);
+            font-size: 15px
+        }
+
+        #v-home .step {
+            font: 700 13px Sora, sans-serif;
+            color: var(--vi);
+            margin-bottom: 16px;
+            display: block
+        }
+
+        #v-home .chart svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 18px
+        }
+
+        #v-home .chart h3 {
+            font-size: 18px
+        }
+
+        #v-home .note {
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--mu);
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        #v-home .note::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--or)
+        }
+
+        #v-home footer {
+            border-top: 1px solid var(--bd);
+            padding: 44px 0 56px;
+            color: var(--mu);
+            font-size: 13px
+        }
+
+        #v-home footer p {
+            max-width: 760px;
+            margin: 12px 0 0
+        }
+
+        #v-home .rv {
+            transition: opacity .8s, transform .8s
+        }
+
+        .js #v-home .rv {
+            opacity: 0;
+            transform: translateY(22px)
+        }
+
+        .js #v-home .rv.in {
+            opacity: 1;
+            transform: none
+        }
+
+        @media(max-width:900px) {
+            #v-home .hero {
+                display: block;
+                padding-top: 96px
+            }
+
+            #v-home #hstage {
+                position: relative;
+                width: 100%;
+                height: 78vw;
+                min-height: 420px;
+                margin-top: 20px
+            }
+
+            #v-home .copy {
+                max-width: none
+            }
+
+            #v-home .badge {
+                top: auto;
+                right: auto;
+                left: 24px;
+                bottom: -6px;
+                position: absolute
+            }
+
+            #v-home .g3,
+            #v-home .g2,
+            #v-home .g4 {
+                grid-template-columns: 1fr
+            }
+
+            #v-home section {
+                padding: 80px 0
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            #v-home * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+
+        #v-home .hero {
+            padding-top: calc(150px + env(safe-area-inset-top, 0px))
+        }
+
+        @media(min-width:901px) {
+            #v-home .badge {
+                top: calc(150px + env(safe-area-inset-top, 0px))
+            }
+        }
+
+        @media(max-width:520px) {
+            .tabs a {
+                padding: 6px 8px;
+                font-size: 12px
+            }
+
+            select {
+                max-width: 96px;
+                padding: 6px 8px
+            }
+
+            .logo svg {
+                width: 24px;
+                height: 24px
+            }
+
+            .bar {
+                gap: 8px;
+                padding: 0 10px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <div class="bar">
+            <a class="logo" href="#home"><svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 2l12 7v14l-12 7L4 23V9z" stroke="#00D9FF" stroke-width="1.6" />
+                    <circle cx="16" cy="16" r="4.5" fill="#FF8A2B" />
+                </svg><span>GBM Care AI<b class="grad">&nbsp;AI</b></span></a>
+            <nav class="tabs"><a href="#home" data-v="home">Home</a><a href="#workspace"
+                    data-v="workspace">Workspace</a><a href="#dose" data-v="dose">Dose model</a><a href="#review"
+                    data-v="review">Review</a></nav>
+            <select id="case" aria-label="Synthetic case"></select>
+        </div>
+        <div class="ban">Synthetic demo data · Research prototype · Not a medical device · Not for clinical use</div>
+    </div>
+
+    <div class="view on" id="v-home">
+        <header class="hero" id="top">
+            <div class="wrap">
+                <div class="copy">
+                    <span class="eyebrow"><i></i>Neuro-oncology · Dose intelligence</span>
+                    <h1>From MRI to dose, <span class="grad">mapped in three dimensions.</span></h1>
+                    <p class="lead">GBM Care AI AI segments glioblastoma across multi-parametric MRI and models dose
+                        distributions on the volume itself, so every decision starts from what the tumor actually looks
+                        like.</p>
+                    <div class="cta"><a class="btn p" href="#workspace">Launch workspace →</a><a class="btn"
+                            href="#platform">Discover the platform</a></div>
+                    <div class="stats">
+                        <div><b>0.92</b><span>Mean Dice, tumor core*</span></div>
+                        <div><b>&lt; 3 min</b><span>Scan to 3D volume*</span></div>
+                        <div><b>4</b><span>MRI sequences fused</span></div>
+                    </div>
+                </div>
+            </div>
+            <div id="hstage">
+                <div class="tag" id="tag"><i></i><em>Glioblastoma region · illustrative</em></div>
+                <div class="layers" id="layers">
+                    <button class="on" data-l="cortex">Cortex</button><button class="on"
+                        data-l="tumor">Tumor</button><button class="on" data-l="mri">MRI panels</button><button
+                        class="on" data-l="rings">Holo rings</button><button class="on"
+                        data-l="spin">Auto-rotate</button>
+                </div>
+                <div class="badge">Drag to rotate · Illustrative demo visualization</div>
+            </div>
+        </header>
+
+        <section id="platform">
+            <div class="wrap">
+                <div class="sh rv"><small>Platform</small>
+                    <h2>One workspace, from pixels to plan.</h2>
+                    <p>Built for neuro-oncology teams who need clarity, traceability and speed — presented with the
+                        polish of a modern product, not a legacy console.</p>
+                </div>
+                <div class="grid g3">
+                    <div class="card rv">
+                        <div class="ic"><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 3a5 5 0 00-5 5 4 4 0 00-3 4 4 4 0 003 3.8A4 4 0 0012 20a4 4 0 005-4.2 4 4 0 003-3.8 4 4 0 00-3-4 5 5 0 00-5-5z" />
+                                <path d="M12 3v17" />
+                            </svg></div>
+                        <h3>3D tumor segmentation</h3>
+                        <p>Enhancing core, necrosis and peritumoral edema delineated across T1, T1c, T2 and FLAIR,
+                            rendered as a navigable volume.</p>
+                    </div>
+                    <div class="card rv">
+                        <div class="ic"><svg viewBox="0 0 24 24">
+                                <path d="M3 20c3-1 4-14 9-14s6 13 9 14" />
+                                <path d="M3 20h18" />
+                            </svg></div>
+                        <h3>Dose response modelling</h3>
+                        <p>Simulate dose–response behaviour per region and compare scenarios side by side with
+                            transparent uncertainty bands.</p>
+                    </div>
+                    <div class="card rv">
+                        <div class="ic"><svg viewBox="0 0 24 24">
+                                <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+                                <path d="M8.5 12l2.5 2.5 4.5-5" />
+                            </svg></div>
+                        <h3>Clinician-in-the-loop</h3>
+                        <p>Every contour is editable and every output is auditable, keeping expert judgement at the
+                            center of the workflow.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pipeline">
+            <div class="wrap">
+                <div class="sh rv"><small>Pipeline</small>
+                    <h2>Four steps. Zero guesswork.</h2>
+                </div>
+                <div class="grid g4">
+                    <div class="card rv"><span class="step">01</span>
+                        <h3>Ingest</h3>
+                        <p>Secure import and co-registration of multi-sequence MRI.</p>
+                    </div>
+                    <div class="card rv"><span class="step">02</span>
+                        <h3>Segment</h3>
+                        <p>Deep-learning delineation of tumor sub-regions in 3D.</p>
+                    </div>
+                    <div class="card rv"><span class="step">03</span>
+                        <h3>Model</h3>
+                        <p>Dose distribution simulated against the segmented volume.</p>
+                    </div>
+                    <div class="card rv"><span class="step">04</span>
+                        <h3>Review</h3>
+                        <p>Expert validation, comparison and exportable reports.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="evidence">
+            <div class="wrap">
+                <div class="sh rv"><small>Evidence</small>
+                    <h2>Scientific visualization, built in.</h2>
+                    <p>Charts below are simulated to demonstrate the interface. They do not represent real patients or
+                        validated performance.</p>
+                </div>
+                <div class="grid g2">
+                    <div class="card chart rv">
+                        <h3>Segmentation overlap by region</h3>
+                        <p>Dice similarity coefficient</p>
+                        <svg viewBox="0 0 420 250" id="c1" role="img"
+                            aria-label="Illustrative bar chart of Dice scores by tumor region"></svg>
+                        <div class="note">Simulated results — illustrative demo content</div>
+                    </div>
+                    <div class="card chart rv">
+                        <h3>Simulated dose–response</h3>
+                        <p>Tumor control probability vs. dose, with 95% band</p>
+                        <svg viewBox="0 0 420 250" id="c2" role="img"
+                            aria-label="Illustrative dose response curve"></svg>
+                        <div class="note">Simulated results — illustrative demo content</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="launch">
+            <div class="wrap">
+                <div class="card rv" style="text-align:center;padding:56px 24px">
+                    <h2>See the platform in action.</h2>
+                    <p style="color:var(--mu);max-width:560px;margin:0 auto 28px">Open the interactive workspace with
+                        three synthetic cases: run the pipeline, edit the tumor contour, model the dose and sign off a
+                        report.</p><a class="btn p" href="#workspace">Open the workspace →</a>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="wrap">
+                <div class="logo">GBM Care AI<span class="grad">&nbsp;AI</span></div>
+                <p>*All figures, MRI panels, tumor segmentations and 3D models on this page are synthetic and shown for
+                    illustrative demonstration only. GBM Care AI AI is a research prototype, not a medical device, and
+                    must not be used for diagnosis or treatment decisions.</p>
+            </div>
+        </footer>
+    </div>
+    <main id="app" class="locked">
+        <section class="view" id="v-workspace">
+            <div class="card pipe">
+                <div class="steps" id="steps"></div><button class="btn p" id="run">Run analysis</button>
+            </div>
+            <p class="lm mt">Run the analysis to reveal the tumor segmentation, volumes and the downstream dose and
+                review modules.</p>
+            <div class="grid g2 mt">
+                <div class="card nopad">
+                    <div id="stage">
+                        <div class="leg"><span><b style="background:var(--rd)"></b>Enhancing tumor</span><span><b
+                                    style="background:#222a44;border:1px solid #888"></b>Necrotic core</span><span><b
+                                    style="background:var(--or)"></b>Peritumoral edema</span></div>
+                        <div class="hint">Drag to rotate · illustrative model</div>
+                    </div>
+                </div>
+                <div class="card gate">
+                    <h3>Segmentation viewer · axial</h3><canvas id="sl" width="360" height="360"></canvas>
+                    <input type="range" id="zs" min="0" max="100" value="50" aria-label="Slice position">
+                    <div class="chips" id="lyr"><button class="chip on" data-k="enh"
+                            style="color:var(--rd)">Enhancing</button><button class="chip on" data-k="nec"
+                            style="color:#8b93b8">Necrosis</button><button class="chip on" data-k="ed"
+                            style="color:var(--or)">Edema</button></div>
+                </div>
+            </div>
+            <div class="grid g4 mt gate" id="vols"></div>
+            <div class="card mt gate">
+                <h3>Clinician edit · edema margin</h3>
+                <div class="row" style="margin:0"><label><span>Contour margin around enhancing tumor</span><b
+                            id="mgv"></b></label><input type="range" id="mg" min="0.5" max="3" step="0.1"></div>
+                <p class="note">Adjusting the contour recomputes every volume and dose metric. Each change is written to
+                    the audit trail and resets any approval.</p>
+            </div>
+        </section>
+
+        <section class="view" id="v-dose">
+            <p class="lm">Run the analysis in the <a href="#workspace" style="text-decoration:underline">Workspace</a>
+                first to unlock dose modelling.</p>
+            <div class="grid g2 gate" style="grid-template-columns:1fr 1.3fr">
+                <div class="card">
+                    <h3>Plan parameters</h3>
+                    <div class="row"><label>Total dose<b id="dv"></b></label><input type="range" id="d" min="40"
+                            max="70" step="1"></div>
+                    <div class="row"><label>Fractions<b id="fv"></b></label><input type="range" id="f" min="10" max="35"
+                            step="1"></div>
+                    <div class="row"><label>Tumor α/β<b id="av"></b></label><input type="range" id="a" min="2" max="12"
+                            step="0.5"></div>
+                    <div class="act"><button class="btn" id="sa">Save scenario A</button><button class="btn"
+                            id="sb">Save scenario B</button></div>
+                    <p class="note">Simulated radiobiology (linear-quadratic BED, logistic TCP). Illustrative only — not
+                        validated.</p>
+                </div>
+                <div class="card">
+                    <h3>Simulated tumor control probability</h3><svg id="dc" viewBox="0 0 420 250"
+                        style="width:100%;height:auto" role="img" aria-label="Simulated dose response curve"></svg>
+                    <div class="grid g4" id="dm" style="margin-top:6px;gap:10px"></div>
+                </div>
+            </div>
+            <div class="card mt gate">
+                <h3>Scenario comparison</h3>
+                <table id="cmp"></table>
+            </div>
+        </section>
+
+        <section class="view" id="v-review">
+            <p class="lm">Run the analysis in the <a href="#workspace" style="text-decoration:underline">Workspace</a>
+                first to unlock review and sign-off.</p>
+            <div class="grid g2 gate" style="grid-template-columns:1fr 1.1fr">
+                <div class="card">
+                    <h3>Audit trail</h3>
+                    <ul id="aud"></ul>
+                </div>
+                <div class="card">
+                    <h3>Clinical review &amp; report</h3>
+                    <pre id="rep"></pre>
+                    <div class="act"><input type="text" id="ini" placeholder="Reviewer initials" maxlength="4"
+                            style="width:140px"><button class="btn p" id="ap">Approve plan</button><button class="btn"
+                            id="cp">Copy report</button><span class="pill pen" id="pl">Pending review</span></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ---------- reveal ----------
+        const io = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target) } }), { threshold: .12 });
+        document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el) });
+
+        // ---------- charts ----------
+        (function () {
+            const ns = 'http://www.w3.org/2000/svg', defs = '<defs><linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00D9FF"/><stop offset="1" stop-color="#2864FF"/></linearGradient><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#916BFF" stop-opacity=".45"/><stop offset="1" stop-color="#916BFF" stop-opacity="0"/></linearGradient></defs>';
+            const d = [['Whole tumor', .95], ['Tumor core', .92], ['Enhancing', .88], ['Edema margin', .9]];
+            let s = defs;
+            for (let i = 0; i <= 4; i++) { const y = 30 + i * 45; s += `<line x1="50" x2="410" y1="${y}" y2="${y}" stroke="rgba(255,255,255,.08)"/><text x="40" y="${y + 4}" fill="#9AA8C7" font-size="11" text-anchor="end">${(1 - i * .1).toFixed(1)}</text>` }
+            d.forEach((r, i) => { const h = r[1] * 180, x = 72 + i * 88, y = 210 - h; s += `<rect x="${x}" y="${y}" width="52" height="${h}" rx="10" fill="url(#bg1)" opacity=".92"/><text x="${x + 26}" y="${y - 8}" fill="#F4F7FF" font-size="12" font-weight="600" text-anchor="middle">${r[1].toFixed(2)}</text><text x="${x + 26}" y="232" fill="#9AA8C7" font-size="10.5" text-anchor="middle">${r[0]}</text>` });
+            document.getElementById('c1').innerHTML = s;
+            let up = '', lo = '', mid = '';
+            for (let i = 0; i <= 40; i++) {
+                const t = i / 40, x = 50 + t * 360, p = 1 / (1 + Math.exp(-(t - .52) * 9)), w = .09 * Math.sin(Math.PI * Math.min(1, t * 1.1 + .05)) + .02;
+                const f = v => (210 - Math.max(0, Math.min(1, v)) * 180).toFixed(1);
+                mid += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + f(p); up += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + f(p + w); lo = x.toFixed(1) + ' ' + f(p - w) + (i ? 'L' : '') + lo
+            }
+            let s2 = defs;
+            for (let i = 0; i <= 4; i++) { const y = 30 + i * 45; s2 += `<line x1="50" x2="410" y1="${y}" y2="${y}" stroke="rgba(255,255,255,.08)"/><text x="40" y="${y + 4}" fill="#9AA8C7" font-size="11" text-anchor="end">${(1 - i * .25).toFixed(2)}</text>` }
+            for (let i = 0; i <= 4; i++)s2 += `<text x="${50 + i * 90}" y="232" fill="#9AA8C7" font-size="11" text-anchor="middle">${40 + i * 7.5} Gy</text>`;
+            s2 += `<path d="${up}L${lo}Z" fill="url(#bg2)"/><path d="${mid}" fill="none" stroke="#00D9FF" stroke-width="2.5"/><line x1="230" x2="230" y1="30" y2="210" stroke="#FF8A2B" stroke-dasharray="4 4" opacity=".7"/><text x="236" y="46" fill="#FFB27A" font-size="11">Simulated plan</text>`;
+            document.getElementById('c2').innerHTML = s2;
+        })();
+
+        // ---------- 3D ----------
+        (function () {
+            const stage = document.getElementById('hstage'), tag = document.getElementById('tag');
+            function fallback() { stage.classList.add('nogl'); stage.insertAdjacentHTML('afterbegin', '<svg viewBox="0 0 600 500"><defs><radialGradient id="fb" cx=".4" cy=".35"><stop offset="0" stop-color="#6fe8ff" stop-opacity=".8"/><stop offset="1" stop-color="#2864FF" stop-opacity=".25"/></radialGradient></defs><path d="M110 270c-30-90 40-170 140-170 40-30 110-30 150 5 80 0 130 70 100 150 20 60-20 110-80 100-30 40-100 45-140 10-60 30-140-5-170-95z" fill="url(#fb)" stroke="#00D9FF" stroke-width="2"/><g fill="none" stroke="#00D9FF" opacity=".5"><path d="M190 180c30 20 40 50 20 80M280 130c20 40 10 80-20 110M380 150c-20 30-10 70 20 90M450 220c-30 10-50 30-50 60"/></g><circle cx="300" cy="230" r="46" fill="#FF8A2B" opacity=".75"/><circle cx="300" cy="230" r="24" fill="#FF4B3E"/></svg>'); tag.style.display = 'none' }
+            if (!window.THREE) { fallback(); return }
+            let R; try { R = new THREE.WebGLRenderer({ antialias: true, alpha: true }) } catch (e) { fallback(); return }
+            R.setPixelRatio(Math.min(devicePixelRatio, 2)); stage.prepend(R.domElement);
+            const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(38, 1, .1, 60);
+            const VS = 'varying vec3 vN,vV;void main(){vec4 m=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-m.xyz);gl_Position=projectionMatrix*m;}';
+            const FS = 'uniform vec3 uC1,uC2,uRim;uniform float uOp;varying vec3 vN,vV;void main(){float f=pow(1.-abs(dot(vN,vV)),2.2);float d=max(dot(vN,normalize(vec3(.4,.8,.6))),0.);vec3 c=mix(uC2,uC1,d)*(.45+.8*d)+uRim*f*1.3;gl_FragColor=vec4(c,(.2+f*.7)*uOp);}';
+            const sm = (a, b, r, o) => new THREE.ShaderMaterial({ uniforms: { uC1: { value: new THREE.Color(a) }, uC2: { value: new THREE.Color(b) }, uRim: { value: new THREE.Color(r) }, uOp: { value: o } }, vertexShader: VS, fragmentShader: FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
+            const cortexMat = sm(0x39b8ff, 0x1a3fd0, 0x00d9ff, 1);
+            const wireMat = new THREE.MeshBasicMaterial({ color: 0x2864ff, wireframe: true, transparent: true, opacity: .07, depthWrite: false });
+
+            function blob(o) {
+                const g = new THREE.SphereGeometry(1, o.n || 80, Math.round((o.n || 80) * .75)), p = g.attributes.position, v = new THREE.Vector3();
+                for (let i = 0; i < p.count; i++) {
+                    v.fromBufferAttribute(p, i); const x = v.x, y = v.y, z = v.z; let lx = x * o.s[0], ly = y * o.s[1], lz = z * o.s[2];
+                    if (o.flat !== undefined && ly < o.flat) ly = o.flat + (ly - o.flat) * .5;
+                    const n = Math.sin(x * 9 + Math.sin(z * 7) * 1.4) * Math.sin(y * 11 + z * 8) + .6 * Math.sin(z * 13 + Math.sin(y * 6) * 2) + (o.stri ? Math.sin(y * o.stri) * 1.2 : 0);
+                    const d = o.amp * n; lx += x * d; ly += y * d; lz += z * d;
+                    if (o.side && -lx * o.side > o.med) lx = -o.side * o.med;
+                    p.setXYZ(i, lx + o.p[0], ly + o.p[1], lz + o.p[2])
+                }
+                g.computeVertexNormals(); return g
+            }
+
+            const brain = new THREE.Group(), cortex = new THREE.Group();
+            const parts = [];
+            [-1, 1].forEach(sd => {
+                parts.push(blob({ s: [.62, .78, 1.18], p: [sd * .58, .1, 0], amp: .05, flat: -.3, side: sd, med: .5, n: 96 }));
+                parts.push(blob({ s: [.34, .25, .62], p: [sd * .82, -.4, .32], amp: .035, n: 56 }))
+            });
+            parts.push(blob({ s: [.7, .3, .42], p: [0, -.58, -.9], amp: .014, stri: 55, n: 64 }));
+            const stem = new THREE.CylinderGeometry(.15, .1, .85, 28, 14); stem.rotateX(-.28); stem.translate(0, -.92, -.4); parts.push(stem);
+            parts.forEach(g => { cortex.add(new THREE.Mesh(g, cortexMat), new THREE.Mesh(g, wireMat)) });
+            brain.add(cortex);
+
+            // tumor
+            const tumor = new THREE.Group(), tp = new THREE.Vector3(-1.0, .3, .25);
+            const ic = new THREE.IcosahedronGeometry(.2, 4), ip = ic.attributes.position, vv = new THREE.Vector3();
+            for (let i = 0; i < ip.count; i++) { vv.fromBufferAttribute(ip, i); const k = 1 + .16 * Math.sin(vv.x * 17) * Math.sin(vv.y * 13 + 1) + .1 * Math.sin(vv.z * 21); ip.setXYZ(i, vv.x * k, vv.y * k, vv.z * k) }
+            ic.computeVertexNormals();
+            const core = new THREE.Mesh(ic, sm(0xffb040, 0xe02a1a, 0xff6a2a, 1.9));
+            const edema = new THREE.Mesh(new THREE.IcosahedronGeometry(.36, 3), sm(0xff9a3a, 0xd23a1a, 0xff7a30, .55));
+            const gc = document.createElement('canvas'); gc.width = gc.height = 128; const gx = gc.getContext('2d'), gg = gx.createRadialGradient(64, 64, 0, 64, 64, 64); gg.addColorStop(0, 'rgba(255,140,40,.9)'); gg.addColorStop(.4, 'rgba(255,70,40,.35)'); gg.addColorStop(1, 'rgba(255,60,30,0)'); gx.fillStyle = gg; gx.fillRect(0, 0, 128, 128);
+            const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(gc), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); glow.scale.set(1.3, 1.3, 1);
+            tumor.add(core, edema, glow); tumor.position.copy(tp); brain.add(tumor);
+            brain.rotation.set(.12, -.6, 0); scene.add(brain);
+
+            // rings + particles
+            const rings = new THREE.Group();
+            const ring = (r, c, o, t) => { const m = new THREE.Mesh(new THREE.TorusGeometry(r, t, 8, 220), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: o, blending: THREE.AdditiveBlending })); return m };
+            const r1 = ring(2.05, 0x00d9ff, .55, .005); r1.rotation.x = 1.25;
+            const r2 = ring(2.45, 0x916bff, .4, .004); r2.rotation.set(1.0, .5, 0);
+            const pts = []; for (let i = 0; i <= 120; i++) { const a = i / 120 * Math.PI * 2; pts.push(new THREE.Vector3(Math.cos(a) * 2.85, 0, Math.sin(a) * 2.85)) }
+            const r3 = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0x2864ff, dashSize: .08, gapSize: .1, transparent: true, opacity: .8 })); r3.computeLineDistances(); r3.rotation.set(1.4, -.3, 0);
+            rings.add(r1, r2, r3); scene.add(rings);
+            const pg = new THREE.BufferGeometry(), pa = []; for (let i = 0; i < 500; i++) { const r = 1.7 + Math.random() * 1.9, t = Math.random() * 6.283, u = Math.acos(2 * Math.random() - 1); pa.push(r * Math.sin(u) * Math.cos(t), r * Math.cos(u) * .8, r * Math.sin(u) * Math.sin(t)) }
+            pg.setAttribute('position', new THREE.Float32BufferAttribute(pa, 3));
+            const dust = new THREE.Points(pg, new THREE.PointsMaterial({ color: 0x7fe9ff, size: .025, transparent: true, opacity: .7, blending: THREE.AdditiveBlending, depthWrite: false })); scene.add(dust);
+
+            // MRI panels
+            function mri(kind, title) {
+                const c = document.createElement('canvas'); c.width = c.height = 320; const x = c.getContext('2d'); let sd = kind.length * 97; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+                x.fillStyle = '#02060f'; x.fillRect(0, 0, 320, 320);
+                const [rx, ry] = kind === 'ax' ? [100, 122] : kind === 'cor' ? [106, 112] : [128, 100];
+                const gr = x.createRadialGradient(160, 165, 10, 160, 165, ry); gr.addColorStop(0, '#aab5c6'); gr.addColorStop(.75, '#66758a'); gr.addColorStop(1, '#1c2433');
+                x.fillStyle = gr; x.beginPath(); x.ellipse(160, 165, rx, ry, 0, 0, 7); x.fill();
+                x.strokeStyle = 'rgba(8,14,26,.5)'; x.lineWidth = 1.3;
+                for (let i = 0; i < 80; i++) { const a = rnd() * 6.28, r = rnd() * .85; x.beginPath(); x.arc(160 + Math.cos(a) * rx * r, 165 + Math.sin(a) * ry * r, 6 + rnd() * 14, rnd() * 6, rnd() * 6 + 2); x.stroke() }
+                x.fillStyle = 'rgba(6,10,20,.75)';
+                if (kind !== 'sag') { [-1, 1].forEach(s => { x.beginPath(); x.ellipse(160 + s * 14, 158, 9, 24, s * .3, 0, 7); x.fill() }); x.strokeStyle = 'rgba(0,0,0,.4)'; x.beginPath(); x.moveTo(160, 60); x.lineTo(160, 270); x.stroke() }
+                else { x.beginPath(); x.ellipse(150, 150, 36, 10, -.2, 0, 7); x.fill() }
+                const tx = kind === 'ax' ? 118 : kind === 'cor' ? 112 : 196, ty = kind === 'ax' ? 140 : kind === 'cor' ? 132 : 128;
+                let g2 = x.createRadialGradient(tx, ty, 4, tx, ty, 48); g2.addColorStop(0, 'rgba(255,90,40,.75)'); g2.addColorStop(.55, 'rgba(255,150,50,.45)'); g2.addColorStop(1, 'rgba(255,150,50,0)'); x.fillStyle = g2; x.beginPath(); x.arc(tx, ty, 48, 0, 7); x.fill();
+                x.strokeStyle = '#FF4B3E'; x.lineWidth = 2; x.beginPath(); for (let i = 0; i <= 40; i++) { const a = i / 40 * 6.283, r = 25 + 4 * Math.sin(a * 3 + 1); x[i ? 'lineTo' : 'moveTo'](tx + Math.cos(a) * r, ty + Math.sin(a) * r) } x.closePath(); x.stroke();
+                x.strokeStyle = '#FFB040'; x.setLineDash([5, 4]); x.beginPath(); x.arc(tx, ty, 40, 0, 7); x.stroke(); x.setLineDash([]);
+                x.strokeStyle = 'rgba(0,217,255,.5)'; x.lineWidth = 1; x.beginPath(); x.moveTo(tx - 60, ty); x.lineTo(tx - 30, ty); x.moveTo(tx + 30, ty); x.lineTo(tx + 60, ty); x.moveTo(tx, ty - 60); x.lineTo(tx, ty - 30); x.moveTo(tx, ty + 30); x.lineTo(tx, ty + 60); x.stroke();
+                x.fillStyle = '#00D9FF'; x.font = '600 15px sans-serif'; x.fillText(title, 14, 26);
+                x.fillStyle = '#FFB27A'; x.font = '11px sans-serif'; x.fillText('Segmentation overlay', 14, 298); x.fillStyle = 'rgba(255,255,255,.75)'; x.fillText('ILLUSTRATIVE DEMO', 200, 26); x.fillText('SYNTHETIC', 244, 298);
+                return new THREE.CanvasTexture(c)
+            }
+            const panels = new THREE.Group(), defs = [['ax', 'AXIAL T1c', [-1.95, .95, .3], .5, 1], ['cor', 'CORONAL FLAIR', [1.95, .55, .1], -.5, 1], ['sag', 'SAGITTAL T2', [1.0, -1.55, 1.35], -.25, .85]];
+            defs.forEach(d => {
+                const gp = new THREE.Group(), sz = 1.05 * d[4];
+                gp.add(new THREE.Mesh(new THREE.PlaneGeometry(sz, sz), new THREE.MeshBasicMaterial({ map: mri(d[0], d[1]), transparent: true, opacity: .94, side: THREE.DoubleSide })));
+                gp.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(sz, sz)), new THREE.LineBasicMaterial({ color: 0x00d9ff })));
+                gp.position.set(...d[2]); gp.rotation.y = d[3]; gp.userData.y0 = d[2][1]; panels.add(gp)
+            });
+            scene.add(panels);
+
+            // interaction
+            let auto = true, drag = false, lx = 0, ly = 0; const cv = R.domElement;
+            cv.addEventListener('pointerdown', e => { drag = true; lx = e.clientX; ly = e.clientY; cv.setPointerCapture(e.pointerId) });
+            cv.addEventListener('pointerup', () => drag = false); cv.addEventListener('pointercancel', () => drag = false);
+            cv.addEventListener('pointermove', e => { if (!drag) return; brain.rotation.y += (e.clientX - lx) * .01; brain.rotation.x = Math.max(-.7, Math.min(.9, brain.rotation.x + (e.clientY - ly) * .006)); lx = e.clientX; ly = e.clientY });
+            const L = { cortex: cortex, tumor: tumor, mri: panels, rings: rings };
+            document.getElementById('layers').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; b.classList.toggle('on'); const k = b.dataset.l, on = b.classList.contains('on'); if (k === 'spin') auto = on; else { L[k].visible = on; if (k === 'tumor') tag.style.opacity = on ? 1 : 0 } });
+
+            function size() { const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return; R.setSize(w, h, false); cam.aspect = w / h; cam.position.set(0, .2, w / h < .9 ? 10.5 : w / h < 1.25 ? 8.4 : 7.2); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix() }
+            new ResizeObserver(size).observe(stage); size();
+
+            const calm = matchMedia('(prefers-reduced-motion:reduce)').matches, wv = new THREE.Vector3(); let t0 = 0;
+            (function loop(t) {
+                requestAnimationFrame(loop); if (!stage.clientWidth) return; const dt = t - t0; t0 = t; if (auto && !drag) brain.rotation.y += (calm ? .0012 : .0042) * Math.min(dt / 16.7, 3);
+                const s = t * .001; rings.rotation.y = s * .15; r1.rotation.z = s * .2; r2.rotation.z = -s * .12; dust.rotation.y = s * .03;
+                panels.children.forEach((p, i) => { p.position.y = p.userData.y0 + Math.sin(s * .9 + i * 2) * .06 });
+                const k = 1 + .06 * Math.sin(s * 3); tumor.scale.setScalar(k); glow.material.opacity = .7 + .3 * Math.sin(s * 3);
+                tumor.getWorldPosition(wv); wv.project(cam); tag.style.transform = `translate(${(wv.x * .5 + .5) * stage.clientWidth - 7}px,${(-wv.y * .5 + .5) * stage.clientHeight - 7}px)`;
+                R.render(scene, cam)
+            })(0);
+        })();
+    </script>
+    <script>const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+        const C = [{ id: 'SYN-001', r: 1.9, nf: .35, m: 1.5, p: [-1, .3, .25], bs: 6.5, o: [-34, -22] }, { id: 'SYN-002', r: 2.6, nf: .5, m: 2, p: [.85, .2, -.3], bs: 4.2, o: [40, 10] }, { id: 'SYN-003', r: 1.2, nf: .2, m: 1, p: [-.6, .5, .6], bs: 8, o: [-20, -50] }];
+        const S = { ci: 0, m: C.map(c => c.m), ran: [0, 0, 0], appr: [null, null, null], D: 60, fx: 30, ab: 10, ab2: {}, sc: { A: null, B: null }, lay: { enh: 1, nec: 1, ed: 1 }, audit: [] };
+        try { const j = JSON.parse(localStorage.getItem('ndmvp') || 'null'); if (j) { S.audit = j.audit || []; S.ran = j.ran || S.ran; S.appr = j.appr || S.appr } } catch (e) { }
+        const save = () => { try { localStorage.setItem('ndmvp', JSON.stringify({ audit: S.audit.slice(0, 60), ran: S.ran, appr: S.appr })) } catch (e) { } };
+        const log = m => { S.audit.unshift({ t: new Date().toLocaleTimeString(), m: C[S.ci].id + ' · ' + m }); save(); renderReview() };
+        const touch = why => { if (S.appr[S.ci]) { S.appr[S.ci] = null; log('Approval reset after ' + why) } };
+
+        // ---- model ----
+        const vol = () => { const c = C[S.ci], r = c.r, n = c.nf * r, m = S.m[S.ci], f = 4 / 3 * Math.PI; return { nec: f * n ** 3, enh: f * (r ** 3 - n ** 3), ed: f * ((r + m) ** 3 - r ** 3), get tot() { return this.nec + this.enh + this.ed }, get gtv() { return this.nec + this.enh } } };
+        const bed = D => D * (1 + D / S.fx / S.ab);
+        const model = () => { const v = vol(), c = C[S.ci], b50 = 60 + 2.5 * Math.cbrt(v.gtv), tcp = b => 1 / (1 + Math.exp(-(b - b50) / 10)), bs = D => D * (.55 + .45 * Math.exp(-(c.bs - 2) / 3)); return { v, b50, tcp, bs, B: bed(S.D), T: tcp(bed(S.D)), X: bs(S.D), E: bed(S.D) / (1 + 2 / S.ab) } };
+
+        // ---- UI ----
+        $('#case').innerHTML = C.map((c, i) => `<option value="${i}">${c.id}</option>`).join('');
+        $('#case').onchange = e => { S.ci = +e.target.value; render() };
+        const steps = ['Ingest MRI', 'Segment', 'Dose model', 'Review ready'];
+        function renderSteps(a) { $('#steps').innerHTML = steps.map((s, i) => `<div class="st ${S.ran[S.ci] || i < a ? 'done' : i === a ? 'act' : ''}"><i></i>${s}</div>`).join('') }
+        $('#run').onclick = () => { if (S.ran[S.ci]) return; $('#run').disabled = true; log('Analysis started'); let i = 0; const t = setInterval(() => { renderSteps(++i); if (i >= 4) { clearInterval(t); S.ran[S.ci] = 1; log('Analysis complete — volumes and dose model available'); render() } }, 750); renderSteps(0) };
+        function renderVol() {
+            const v = vol(); const k = [['Enhancing tumor', v.enh, 'var(--rd)'], ['Necrotic core', v.nec, '#8b93b8'], ['Peritumoral edema', v.ed, 'var(--or)'], ['Total volume', v.tot, 'var(--cy)']];
+            $('#vols').innerHTML = k.map(x => `<div class="card m"><small>${x[0]}</small><b style="color:${x[2]}">${x[1].toFixed(1)}</b> <em>cc</em></div>`).join(''); $('#mgv').textContent = S.m[S.ci].toFixed(1) + ' cm'; $('#mg').value = S.m[S.ci]
+        }
+        $('#mg').oninput = e => { S.m[S.ci] = +e.target.value; render() };
+        $('#mg').onchange = () => { log('Edema margin edited to ' + S.m[S.ci].toFixed(1) + ' cm'); touch('contour edit') };
+        $('#zs').oninput = drawSlice;
+        $$('#lyr .chip').forEach(b => b.onclick = () => { const k = b.dataset.k; S.lay[k] = !S.lay[k]; b.classList.toggle('on', !!S.lay[k]); drawSlice() });
+
+        function blobPath(x, cx, cy, rad, sd) { x.beginPath(); for (let i = 0; i <= 48; i++) { const a = i / 48 * 6.283, r = rad * (1 + .07 * Math.sin(3 * a + sd) + .04 * Math.sin(5 * a + sd * 2)); x[i ? 'lineTo' : 'moveTo'](cx + Math.cos(a) * r, cy + Math.sin(a) * r) } x.closePath() }
+        function drawSlice() {
+            const cv = $('#sl'), x = cv.getContext('2d'), c = C[S.ci], m = S.m[S.ci]; x.fillStyle = '#02060f'; x.fillRect(0, 0, 360, 360);
+            const g = x.createRadialGradient(180, 185, 10, 180, 185, 150); g.addColorStop(0, '#aab5c6'); g.addColorStop(.75, '#66758a'); g.addColorStop(1, '#1d2535'); x.fillStyle = g; x.beginPath(); x.ellipse(180, 185, 128, 156, 0, 0, 7); x.fill();
+            x.strokeStyle = 'rgba(8,14,26,.45)'; let sd = 11; const rn = () => (sd = sd * 16807 % 2147483647) / 2147483647; for (let i = 0; i < 90; i++) { const a = rn() * 6.28, r = rn() * .85; x.beginPath(); x.arc(180 + Math.cos(a) * 118 * r, 185 + Math.sin(a) * 146 * r, 5 + rn() * 13, rn() * 6, rn() * 6 + 2); x.stroke() }
+            x.fillStyle = 'rgba(6,10,20,.75)';[-1, 1].forEach(s => { x.beginPath(); x.ellipse(180 + s * 17, 178, 10, 30, s * .3, 0, 7); x.fill() });
+            if (S.ran[S.ci]) {
+                const R = c.r + m, dz = (+$('#zs').value - 50) / 50 * R * 1.15, px = 14, [ox, oy] = c.o, cx = 180 + ox, cy = 185 + oy;
+                const f = q => Math.sqrt(Math.max(0, 1 - (dz / q) ** 2));
+                if (S.lay.ed && f(R) > 0) { blobPath(x, cx, cy, R * f(R) * px, 1); x.fillStyle = 'rgba(255,138,43,.3)'; x.fill(); x.setLineDash([5, 4]); x.strokeStyle = '#FFB040'; x.lineWidth = 1.5; x.stroke(); x.setLineDash([]) }
+                if (S.lay.enh && f(c.r) > 0) { const o = c.r * f(c.r) * px, n = c.nf * c.r, i = n * Math.sqrt(Math.max(0, 1 - (dz / n) ** 2)) * px; blobPath(x, cx, cy, o, 2); x.fillStyle = 'rgba(255,75,62,.6)'; x.fill(); x.strokeStyle = '#FF4B3E'; x.lineWidth = 2; x.stroke(); if (!S.lay.nec && i > 0) { blobPath(x, cx, cy, i, 3); x.fillStyle = 'rgba(255,75,62,.6)'; x.fill() } }
+                if (S.lay.nec && c.nf * c.r > Math.abs(dz)) { const n = c.nf * c.r, i = n * Math.sqrt(1 - (dz / n) ** 2) * px; blobPath(x, cx, cy, i, 3); x.fillStyle = 'rgba(10,12,28,.85)'; x.fill() }
+            }
+            x.fillStyle = '#00D9FF'; x.font = '600 13px sans-serif'; x.fillText('AXIAL T1c · ' + c.id, 12, 22); x.fillStyle = 'rgba(255,255,255,.75)'; x.font = '11px sans-serif'; x.fillText('SYNTHETIC · ILLUSTRATIVE', 12, 348); x.fillText('slice ' + $('#zs').value, 300, 348)
+        }
+
+        function renderDose() {
+            const M = model(); $('#dv').textContent = S.D + ' Gy'; $('#fv').textContent = S.fx; $('#av').textContent = S.ab; $('#d').value = S.D; $('#f').value = S.fx; $('#a').value = S.ab;
+            let s = '', up = '', lo = '', mid = ''; for (let i = 0; i <= 4; i++) { const y = 30 + i * 45; s += `<line x1="50" x2="410" y1="${y}" y2="${y}" stroke="rgba(255,255,255,.08)"/><text x="42" y="${y + 4}" fill="#9AA8C7" font-size="11" text-anchor="end">${Math.round(100 - i * 25)}%</text><text x="${50 + i * 90}" y="232" fill="#9AA8C7" font-size="11" text-anchor="middle">${40 + i * 7.5} Gy</text>` }
+            const X = D => 50 + (D - 40) / 30 * 360, Y = p => (210 - Math.max(0, Math.min(1, p)) * 180).toFixed(1);
+            for (let D = 40; D <= 70; D += .75) { const b = bed(D); mid += (mid ? 'L' : 'M') + X(D).toFixed(1) + ' ' + Y(M.tcp(b)); up += (up ? 'L' : 'M') + X(D).toFixed(1) + ' ' + Y(M.tcp(b + 9)); lo = X(D).toFixed(1) + ' ' + Y(M.tcp(b - 9)) + (lo ? 'L' : '') + lo }
+            s += `<defs><linearGradient id="bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#916BFF" stop-opacity=".45"/><stop offset="1" stop-color="#916BFF" stop-opacity="0"/></linearGradient></defs><path d="${up}L${lo}Z" fill="url(#bd)"/><path d="${mid}" fill="none" stroke="#00D9FF" stroke-width="2.5"/><line x1="${X(S.D)}" x2="${X(S.D)}" y1="30" y2="210" stroke="#FF8A2B" stroke-dasharray="4 4"/><circle cx="${X(S.D)}" cy="${Y(M.T)}" r="6" fill="#FF8A2B" stroke="#fff" stroke-width="1.5"/>`; $('#dc').innerHTML = s;
+            const lim = 54, ok = M.X <= lim; $('#dm').innerHTML = [['BED', M.B.toFixed(1) + ' Gy'], ['EQD2', M.E.toFixed(1) + ' Gy'], ['TCP (sim.)', (M.T * 100).toFixed(0) + '%'], ['Brainstem Dmax', `<span class="${ok ? 'ok' : 'bad'}">${M.X.toFixed(1)} Gy ${ok ? '✓' : '✕'}</span>`]].map(k => `<div class="m"><small>${k[0]}</small><b style="font-size:17px">${k[1]}</b></div>`).join('');
+            const row = (n, o) => o ? `<tr><td>${n}</td><td>${o.D} Gy / ${o.fx} fx</td><td>${(o.T * 100).toFixed(0)}%</td><td class="${o.X <= lim ? 'ok' : 'bad'}">${o.X.toFixed(1)} Gy</td></tr>` : `<tr><td>${n}</td><td colspan="3" style="color:var(--mu)">Not saved</td></tr>`;
+            $('#cmp').innerHTML = `<tr><th>Scenario</th><th>Plan</th><th>TCP (sim.)</th><th>Brainstem Dmax (limit ${lim} Gy)</th></tr>` + row('A', S.sc.A) + row('B', S.sc.B) + row('Current', { D: S.D, fx: S.fx, T: M.T, X: M.X })
+        }
+        [['d', 'D'], ['f', 'fx'], ['a', 'ab']].forEach(([id, k]) => { $('#' + id).oninput = e => { S[k] = +e.target.value; renderDose(); renderReview() }; $('#' + id).onchange = () => { log(`Plan changed: ${S.D} Gy / ${S.fx} fx, α/β ${S.ab}`); touch('plan change') } });
+        ['A', 'B'].forEach(k => $('#s' + k.toLowerCase()).onclick = () => { const M = model(); S.sc[k] = { D: S.D, fx: S.fx, T: M.T, X: M.X }; log('Scenario ' + k + ' saved'); renderDose() });
+
+        function report() { const M = model(), v = M.v, c = C[S.ci]; return `GBM Care AI AI — SYNTHETIC DEMO REPORT\nCase: ${c.id} (synthetic, no patient data)\n\nSegmentation\n  Enhancing tumor   ${v.enh.toFixed(1)} cc\n  Necrotic core     ${v.nec.toFixed(1)} cc\n  Edema (margin ${S.m[S.ci].toFixed(1)} cm) ${v.ed.toFixed(1)} cc\n\nSimulated plan\n  ${S.D} Gy in ${S.fx} fractions (α/β ${S.ab})\n  BED ${M.B.toFixed(1)} Gy · EQD2 ${M.E.toFixed(1)} Gy\n  Simulated TCP ${(M.T * 100).toFixed(0)}%\n  Brainstem Dmax ${M.X.toFixed(1)} Gy (limit 54 Gy)\n\nStatus: ${S.appr[S.ci] ? 'APPROVED by ' + S.appr[S.ci] : 'PENDING clinician review'}\n\nIllustrative demo output. Research prototype, not a medical device.` }
+        function renderReview() {
+            $('#aud').innerHTML = S.audit.length ? S.audit.map(a => `<li><time>${a.t}</time><span>${a.m}</span></li>`).join('') : '<li style="color:var(--mu)">No events yet.</li>';
+            if (!S.ran[S.ci]) { $('#rep').textContent = 'Run the analysis to generate a report.'; return }
+            $('#rep').textContent = report(); const a = S.appr[S.ci]; $('#pl').className = 'pill ' + (a ? 'ap' : 'pen'); $('#pl').textContent = a ? 'Approved · ' + a : 'Pending review'; $('#ap').disabled = !!a
+        }
+        $('#ap').onclick = () => { const i = $('#ini').value.trim().toUpperCase(); if (!i) { $('#ini').focus(); return } S.appr[S.ci] = i; log('Plan approved by ' + i); render() };
+        $('#cp').onclick = async () => { try { await navigator.clipboard.writeText($('#rep').textContent); $('#cp').textContent = 'Copied ✓' } catch (e) { const r = document.createRange(); r.selectNodeContents($('#rep')); getSelection().removeAllRanges(); getSelection().addRange(r); $('#cp').textContent = 'Selected — press copy' } setTimeout(() => $('#cp').textContent = 'Copy report', 1800) };
+
+        function render() { $('#case').value = S.ci; const ran = !!S.ran[S.ci]; $('#app').classList.toggle('locked', !ran); $('#run').disabled = ran; $('#run').textContent = ran ? 'Analysis complete ✓' : 'Run analysis'; renderSteps(ran ? 4 : -1); renderVol(); drawSlice(); renderDose(); renderReview(); upd3D() }
+        function route() { const h = (location.hash || '#home').slice(1), secs = ['platform', 'pipeline', 'evidence', 'launch'], k = ['workspace', 'dose', 'review'].includes(h) ? h : 'home'; $$('.view').forEach(e => e.classList.toggle('on', e.id === 'v-' + k)); $$('.tabs a').forEach(a => a.classList.toggle('on', a.dataset.v === k)); $('main').style.display = k === 'home' ? 'none' : ''; $('#case').style.display = k === 'home' ? 'none' : ''; const t = secs.includes(h) ? document.getElementById(h) : null; t ? t.scrollIntoView() : scrollTo(0, 0) }
+        addEventListener('hashchange', route);
+
+        // ---- 3D ----
+        let upd3D = () => { };
+        (function () {
+            const st = $('#stage'); if (!window.THREE) { st.insertAdjacentHTML('beforeend', '<p style="padding:40px;color:#9AA8C7">3D preview unavailable.</p>'); return }
+            let R; try { R = new THREE.WebGLRenderer({ antialias: true, alpha: true }) } catch (e) { st.insertAdjacentHTML('beforeend', '<p style="padding:40px;color:#9AA8C7">3D preview unavailable (WebGL).</p>'); return }
+            R.setPixelRatio(Math.min(devicePixelRatio, 2)); st.prepend(R.domElement); const sc = new THREE.Scene(), cam = new THREE.PerspectiveCamera(38, 1, .1, 50);
+            const VS = 'varying vec3 vN,vV;void main(){vec4 m=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-m.xyz);gl_Position=projectionMatrix*m;}', FS = 'uniform vec3 a,b,r;uniform float o;varying vec3 vN,vV;void main(){float f=pow(1.-abs(dot(vN,vV)),2.2);float d=max(dot(vN,normalize(vec3(.4,.8,.6))),0.);gl_FragColor=vec4(mix(b,a,d)*(.45+.8*d)+r*f*1.3,(.2+f*.7)*o);}';
+            const sm = (a, b, r, o) => new THREE.ShaderMaterial({ uniforms: { a: { value: new THREE.Color(a) }, b: { value: new THREE.Color(b) }, r: { value: new THREE.Color(r) }, o: { value: o } }, vertexShader: VS, fragmentShader: FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending });
+            function blob(o) { const g = new THREE.SphereGeometry(1, o.n || 72, 54), p = g.attributes.position, v = new THREE.Vector3(); for (let i = 0; i < p.count; i++) { v.fromBufferAttribute(p, i); const { x, y, z } = v; let lx = x * o.s[0], ly = y * o.s[1], lz = z * o.s[2]; if (o.fl !== undefined && ly < o.fl) ly = o.fl + (ly - o.fl) * .5; const n = Math.sin(x * 9 + Math.sin(z * 7) * 1.4) * Math.sin(y * 11 + z * 8) + .6 * Math.sin(z * 13 + Math.sin(y * 6) * 2) + (o.st ? Math.sin(y * o.st) * 1.2 : 0), d = o.a * n; lx += x * d; ly += y * d; lz += z * d; if (o.sd && -lx * o.sd > .5) lx = -o.sd * .5; p.setXYZ(i, lx + o.p[0], ly + o.p[1], lz + o.p[2]) } g.computeVertexNormals(); return g }
+            const br = new THREE.Group(), cm = sm(0x39b8ff, 0x1a3fd0, 0x00d9ff, 1), pt = [];
+            [-1, 1].forEach(s => { pt.push(blob({ s: [.62, .78, 1.18], p: [s * .58, .1, 0], a: .05, fl: -.3, sd: s, n: 88 }), blob({ s: [.34, .25, .62], p: [s * .82, -.4, .32], a: .035, n: 52 })) });
+            pt.push(blob({ s: [.7, .3, .42], p: [0, -.58, -.9], a: .014, st: 55, n: 56 })); const stem = new THREE.CylinderGeometry(.15, .1, .85, 24, 12); stem.rotateX(-.28); stem.translate(0, -.92, -.4); pt.push(stem);
+            pt.forEach(g => br.add(new THREE.Mesh(g, cm), new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x2864ff, wireframe: true, transparent: true, opacity: .06, depthWrite: false }))));
+            const ug = new THREE.IcosahedronGeometry(1, 4), up = ug.attributes.position, vv = new THREE.Vector3(); for (let i = 0; i < up.count; i++) { vv.fromBufferAttribute(up, i); const k = 1 + .14 * Math.sin(vv.x * 5) * Math.sin(vv.y * 4 + 1) + .08 * Math.sin(vv.z * 7); up.setXYZ(i, vv.x * k, vv.y * k, vv.z * k) } ug.computeVertexNormals();
+            const core = new THREE.Mesh(ug, sm(0xffb040, 0xe02a1a, 0xff6a2a, 1.9)), neco = new THREE.Mesh(ug, new THREE.MeshBasicMaterial({ color: 0x10142a })), edema = new THREE.Mesh(ug, sm(0xff9a3a, 0xd23a1a, 0xff7a30, .55)), tu = new THREE.Group(); tu.add(neco, core, edema); br.add(tu); br.rotation.set(.12, -.6, 0); sc.add(br);
+            const U = .087; upd3D = () => { const c = C[S.ci]; tu.visible = !!S.ran[S.ci]; tu.position.set(...c.p); core.scale.setScalar(c.r * U); neco.scale.setScalar(c.nf * c.r * U * .98); edema.scale.setScalar((c.r + S.m[S.ci]) * U) };
+            let dr = false, lx = 0, ly = 0; const cv = R.domElement; cv.onpointerdown = e => { dr = true; lx = e.clientX; ly = e.clientY; cv.setPointerCapture(e.pointerId) }; cv.onpointerup = cv.onpointercancel = () => dr = false; cv.onpointermove = e => { if (!dr) return; br.rotation.y += (e.clientX - lx) * .01; br.rotation.x = Math.max(-.7, Math.min(.9, br.rotation.x + (e.clientY - ly) * .006)); lx = e.clientX; ly = e.clientY };
+            const sz = () => { const w = st.clientWidth, h = st.clientHeight; if (!w) return; R.setSize(w, h, false); cam.aspect = w / h; cam.position.set(0, .2, w / h < 1 ? 8.4 : 6.6); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix() }; new ResizeObserver(sz).observe(st);
+            const calm = matchMedia('(prefers-reduced-motion:reduce)').matches; (function L() { requestAnimationFrame(L); if (!st.clientWidth) return; if (!dr) br.rotation.y += calm ? .001 : .004; const s = Date.now() * .003; tu.scale.setScalar(1 + .04 * Math.sin(s)); R.render(sc, cam) })(); upd3D()
+        })();
+
+        route(); render();
+        if (!S.audit.length) log('Workspace opened with synthetic cases');
+    </script>
+</body>
+
+</html>
